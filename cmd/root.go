@@ -1,43 +1,29 @@
-/*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
-	"fmt"
-	"os"
-	"github.com/spf13/cobra"
+	"time"
 
-	"github.com/spf13/viper"
+	"github.com/spf13/cobra"
+	"github.com/timdeklijn/aoc/pkg/runner"
 )
 
-var cfgFile string
+var year int
+var day int
+var part int
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "aoc",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "Advent of Code Solutions",
+	Long: `A go package simplifying the running of solutions for Advent of
+Code. Automate running the examples before downloading the data and running
+the solution on the acutal data. Time the solutions and save the run time and
+solution to a file.`,
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		aocRunner := runner.NewRunner(year, day, part)
+		aocRunner.Run()
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -46,40 +32,21 @@ func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
 }
 
-func init() {
-	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.aoc.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+// setDefaults returns a PuzzleID that, when it is December returns the current
+// year + day of the month. If not, it will return the default 2021, 1, 1 which
+// means the first part of the first puzzle of 2020.
+func setDefaults() (int, int, int) {
+	currentTime := time.Now()
+	if currentTime.Month() != time.December {
+		return 2020, 1, 1
+	}
+	return currentTime.Year(), currentTime.Day(), 1
 }
 
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
-		// Search config in home directory with name ".aoc" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
-		viper.SetConfigName(".aoc")
-	}
-
-	viper.AutomaticEnv() // read in environment variables that match
-
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
-	}
+func init() {
+	y, d, p := setDefaults()
+	// TODO: this is not set properly
+	rootCmd.PersistentFlags().IntVarP(&year, "year", "y", y, "year of puzzle")
+	rootCmd.PersistentFlags().IntVarP(&day, "day", "d", d, "day of puzzle")
+	rootCmd.PersistentFlags().IntVarP(&part, "part", "p", p, "part of puzzle")
 }
