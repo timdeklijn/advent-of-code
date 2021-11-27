@@ -1,7 +1,6 @@
 package runner
 
 import (
-	"fmt"
 	"os"
 
 	log "github.com/sirupsen/logrus"
@@ -30,15 +29,18 @@ func (r *Runner) Run() {
 		log.Error("Examples failed")
 		os.Exit(0)
 	}
-	// TODO: add data download and loader.
-	dl := dataloader.NewDataLoader(r.Day, r.Year)
-	data, err := dl.FetchData()
+	log.Info("examples succeeded 😎")
+
+	dl, err := dataloader.NewDataLoader(r.Day, r.Year)
+
 	if err != nil {
-		log.Panic(err)
+		log.Panicf("error creating dataloader: %e", err)
+	}
+	scanner, err := dl.RetrieveData()
+	if err != nil {
+		log.Panicf("error retrieving data: %e", err)
 	}
 
-	fmt.Println(string(data))
-
-	sol := p.RunSolution()
+	sol := p.RunSolution(scanner, solution)
 	log.Infof("solution: %d", sol)
 }

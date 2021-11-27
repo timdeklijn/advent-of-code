@@ -1,5 +1,7 @@
 package solution
 
+import "bufio"
+
 // TODO: replace string with some readertype
 
 type Example struct {
@@ -12,5 +14,5 @@ type Examples []Example
 
 type Solution interface {
 	GetExamples() Examples
-	Run(string) int
+	Run(*bufio.Scanner) int
 }
