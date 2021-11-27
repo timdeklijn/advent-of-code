@@ -17,14 +17,17 @@ func toKey(y, d, p int) string {
 	var dS string
 	if d < 10 {
 		dS = fmt.Sprintf("%02d", d)
+	} else {
+		dS = strconv.Itoa(d)
 	}
-	dS = strconv.Itoa(d)
 	pS := fmt.Sprintf("%02d", p)
 	return yS + dS + pS
 }
 
-func Map(y, d, p int) solution.Solution {
-	// TODO: add return when solution is not (yet) implemented
+func Map(y, d, p int) (solution.Solution, error) {
 	key := toKey(y, d, p)
-	return solutionMap[key]
+	if sol, ok := solutionMap[key]; ok {
+		return sol, nil
+	}
+	return nil, fmt.Errorf("could not find solution: %s", key)
 }

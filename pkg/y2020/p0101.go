@@ -12,5 +12,5 @@ func (p *P0101) GetExamples() solution.Examples {
 	}}
 }
 func (p *P0101) Run(string) int {
-	return 2
+	return 3
 }
