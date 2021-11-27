@@ -43,6 +43,7 @@ func (d *DataLoader) CreateURL() string {
 // FetchData loads the data from a specific url. To succesfully do a GET
 // requests a cookie is constructed from a session id.
 func (d *DataLoader) FetchData() ([]byte, error) {
+	// TODO: only download file when it is not present on disk
 	cookie := os.Getenv("COOKIE_SESSION")
 	if cookie == "" {
 		return []byte{}, fmt.Errorf("error retrieving cookie from environment")
@@ -69,5 +70,6 @@ func (d *DataLoader) FetchData() ([]byte, error) {
 		return []byte{}, err
 	}
 
+	// TODO: write this to file
 	return body, err
 }
