@@ -9,3 +9,4 @@ Tim de Klijn
 - [ ] write solution + time to file
 - [ ] code generation?
 - [ ] give objects some better names
+  - `puzzle` should be a `solutionrunner`
