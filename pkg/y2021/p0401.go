@@ -196,7 +196,7 @@ func (p *P0401) Run(data *bufio.Scanner) int {
 	draws := NewDraws(lines[0])
 	boards := NewBingoBoards(lines[2:])
 
-	// Loop ever draws, set the numbers as marked in each board and break out of
+	// Loop over draws, set the numbers as marked in each board and break out of
 	// the loop when the first board is finished.
 	for _, draw := range draws {
 		for _, board := range boards {
