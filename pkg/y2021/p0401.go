@@ -94,16 +94,16 @@ func (b BingoBoard) CheckColumn(c int) bool {
 
 // CheckBoard returns true if a row or column is completely marked
 func (b BingoBoard) CheckBoard() bool {
-	for r := 0; r < 5; r++ {
-		if b.CheckRow(r) {
+	for i := 0; i < 5; i++ {
+		if b.CheckRow(i) {
+			return true
+		}
+
+		if b.CheckColumn(i) {
 			return true
 		}
 	}
-	for c := 0; c < 5; c++ {
-		if b.CheckColumn(c) {
-			return true
-		}
-	}
+
 	return false
 }
 
@@ -193,12 +193,11 @@ func (p *P0401) Run(data *bufio.Scanner) int {
 		lines = append(lines, s)
 	}
 
-	// Parse dhe drawn numbers as well as the boards
 	draws := NewDraws(lines[0])
 	boards := NewBingoBoards(lines[2:])
 
 	// Loop ever draws, set the numbers as marked in each board and break out of
-	// the loop when a board is finished.
+	// the loop when the first board is finished.
 	for _, draw := range draws {
 		for _, board := range boards {
 			board.Mark(draw)
