@@ -33,7 +33,7 @@ func (p *P0802) GetExamples() solution.Examples {
 }
 
 // =============================================================================
-// Number helps manupulation
+// Number helps manipulation
 // =============================================================================
 
 type Number string
