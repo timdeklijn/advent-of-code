@@ -149,7 +149,7 @@ func (p *P0802) Run(data *bufio.Scanner) int {
 				results[9] = n
 				continue
 			}
-			// '0' will have total overlap with 0
+			// '0' will have total overlap with 1
 			if len(results[1].sub(n)) == 0 {
 				results[0] = n
 			} else {
