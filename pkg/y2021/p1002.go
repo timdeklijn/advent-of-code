@@ -21,7 +21,7 @@ func (p *P1002) GetExamples() solution.Examples {
 func (p *P1002) Run(data *bufio.Scanner) int {
 
 	var scoreList []int
-	points := map[string]int{")": 1, "]": 2, "}": 3, ">": 4}
+	points := map[string]int{"(": 1, "[": 2, "{": 3, "<": 4}
 
 	for data.Scan() {
 
@@ -85,18 +85,7 @@ func (p *P1002) Run(data *bufio.Scanner) int {
 		// characters in the leftover slice.
 		score := 0
 		for i := len(l) - 1; i >= 0; i-- {
-			switch l[i] {
-			case "(":
-				score = score*5 + points[")"]
-			case "[":
-				score = score*5 + points["]"]
-			case "{":
-				score = score*5 + points["}"]
-			case "<":
-				score = score*5 + points[">"]
-			default:
-				continue
-			}
+			score = score*5 + points[l[i]]
 		}
 		scoreList = append(scoreList, score)
 	}
