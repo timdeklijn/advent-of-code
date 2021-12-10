@@ -29,6 +29,8 @@ var solutionMap = map[string]solution.Solution{
 	"20210802": &y2021.P0802{},
 	"20210901": &y2021.P0901{},
 	"20210902": &y2021.P0902{},
+	"20211001": &y2021.P1001{},
+	"20211002": &y2021.P1002{},
 }
 
 func toKey(y, d, p int) string {
